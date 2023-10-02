@@ -1,0 +1,161 @@
+import UIKit
+
+class Shape { // letra maiuscula
+    var numberOfSides = 0
+    func simpleDescription() -> String {
+        return "Uma forma com \(numberOfSides) lados."
+    }
+}
+
+var shape = Shape()
+shape.numberOfSides = 7
+var shapedDescription = shape.simpleDescription()
+
+
+// Inicializador para configurar uma classe quando a instância é criada
+class NamedShape {
+    var numberOfSide: Int = 0
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+    
+    func simpleDescription() -> String {
+        return "Texto \(numberOfSide) \(name)."
+    }
+    
+    deinit { // desinicia o inicializados ???
+        
+    }
+}
+
+var namedShaped = NamedShape(name: "Paula")
+namedShaped.numberOfSide = 9
+namedShaped.simpleDescription()
+
+
+// Subclasses - Inclui uma SuperClasse
+class Square: NamedShape {
+    var sideLenght: Double
+    
+    init(sideLenght: Double, name: String) {
+        self.sideLenght = sideLenght
+        super.init(name: name)
+        numberOfSide = 4
+    }
+    
+    func area() -> Double {
+        return sideLenght * sideLenght
+    }
+    
+    override func simpleDescription() -> String {
+        return "Batatinha \(sideLenght)."
+    }
+    
+}
+
+let square = Square(sideLenght: 5.2, name: "Frita")
+square.area()
+square.simpleDescription()
+square.name
+square.numberOfSide
+
+// Getters e Setters
+class EquilateralTriangle: NamedShape {
+    var sideLength: Double = 0.0
+    
+    var perimeter: Double {
+        get { return 3.0 * sideLength }
+        set { sideLength = newValue / 3.0}
+    }
+    
+    init(sideLength: Double, name: String) {
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSide = 3
+    }
+    
+    override func simpleDescription() -> String {
+        return "A Tina é puta \(sideLength)"
+    }
+}
+
+let triangulo = EquilateralTriangle(sideLength: 1.5, name: "Paula")
+triangulo.perimeter
+triangulo.perimeter = 9.9
+triangulo.sideLength
+triangulo.numberOfSide
+
+// willSet e didSet - "property observers" (observadores de propriedade) e são usados para observar e responder a mudanças no valor de uma propriedade de uma classe
+class TriangleAndSquare {
+    var triangulo: EquilateralTriangle {
+        willSet {
+            triangulo.sideLength = newValue.sideLength
+        }
+    }
+    
+    var square: Square {
+        willSet {
+            triangulo.sideLength = newValue.sideLenght
+        }
+    }
+    
+    init(size: Double, name: String) {
+        square = Square(sideLenght: size, name: name)
+        triangulo = EquilateralTriangle(sideLength: size, name: name)
+    }
+}
+
+var triangleAndSquare = TriangleAndSquare(size: 10, name: "Clebi")
+triangleAndSquare.square.sideLenght
+triangleAndSquare.triangulo.sideLength
+triangleAndSquare.square = Square(sideLenght: 50, name: "Quadrado Maior")
+triangleAndSquare.triangulo.sideLength
+
+// --- Outro exemplo - WillSet
+//  É chamado imediatamente antes do valor de uma propriedade ser armazenado. Antes de executar uma lógica que a atribuição ocorra
+// Parametro implicito: newValue
+class Pessoa {
+    var idade: Int {
+        willSet {
+            print("A idade está prestes a ser definida para \(newValue) anos.")
+        }
+    }
+    
+    init(idade: Int) {
+        self.idade = idade
+    }
+}
+
+let pessoa = Pessoa(idade: 25)
+print(pessoa.idade)
+pessoa.idade = 30
+print(pessoa.idade)
+
+// --- Outro exemplo - didSet
+//  É chamado imediatamente após o valor de uma propriedade ser armazenado. Após executar uma lógica que a atribuição ocorra
+// Parametro implicito: oldValue
+class ContaBancaria {
+    var saldo: Double {
+        didSet {
+            print("O saldo foi alterado de \(oldValue) para \(saldo).")
+        }
+    }
+    
+    init(saldo: Double) {
+        self.saldo = saldo
+    }
+}
+
+let conta = ContaBancaria(saldo: 1000.0)
+print(conta.saldo)
+conta.saldo = 1500.0
+print(conta.saldo)
+
+
+// valores opcionais
+let optionalSquare: Square? = Square(sideLenght: 2.5, name: "Quadrado Opcional")
+let sideLength = optionalSquare?.sideLenght
+
+
