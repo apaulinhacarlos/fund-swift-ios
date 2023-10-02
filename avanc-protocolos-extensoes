@@ -1,0 +1,32 @@
+import UIKit
+
+// Protocolos
+
+protocol ExempleProtocol {
+    var simpleDescription: String { get }
+    mutating func adjust()
+}
+
+class SimpleClass: ExempleProtocol {
+    var simpleDescription: String = "Uma classe muito simples"
+    var anotherProperty: Int = 69105
+    func adjust() {
+        simpleDescription += " Agora 100% ajustado."
+    }
+}
+
+var a = SimpleClass()
+a.adjust()
+let aDescription = a.simpleDescription
+
+struct SimpleStructure: ExempleProtocol {
+    var simpleDescription: String = "Uma struct simples"
+    mutating func adjust() {
+        simpleDescription += " (ajustado)"
+    }
+}
+
+var b = SimpleStructure()
+b.adjust()
+let bDescription = b.simpleDescription
+
