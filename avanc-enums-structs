@@ -1,0 +1,85 @@
+import UIKit
+
+// Enums - Criar uma numeração
+enum Rank: Int {
+    case ace = 1
+    case two, three, four, five, six
+    case jack, queen, king
+    
+    func simpleDescription() -> String {
+        switch self {
+        case .ace:
+            return "ace"
+        case .jack:
+            return "jack"
+        case .queen:
+            return "queen"
+        case .king:
+            return "king"
+        default:
+            return String(self.rawValue)
+        }
+    }
+}
+
+let ace = Rank.ace
+let aceRawValue = ace.rawValue
+let four = Rank.four
+let fourRawValue1 = Rank.four.rawValue
+let fourRawValue2 = Rank(rawValue: 4)
+
+if let convertedRank = Rank(rawValue: 3) {
+    let threeDescription = convertedRank.simpleDescription()
+}
+
+// ---
+
+enum Suit {
+    case spades, hearts, diamonds, clubs
+    
+    func simpleDescription() -> String {
+        switch self {
+        case .spades:
+            return "spades"
+        case .hearts:
+            return "hearts"
+        case .diamonds:
+            return "diamonds"
+        case .clubs:
+            return "clubs"
+        }
+    }
+}
+
+let hearts = Suit.hearts
+let heartsDescription = hearts.simpleDescription()
+
+// ---
+
+enum ServerResponse {
+    case result(String, String)
+    case failure(String)
+}
+
+let success = ServerResponse.result("6am", "8pm")
+let failure = ServerResponse.failure("Fora do intervalo")
+
+switch failure {
+case let .result(sunrise, sunset):
+    print("Nascer do sol é \(sunrise) e o por do sol é \(sunset)")
+case let .failure(message):
+    print("Falha... \(message)")
+}
+
+// Structs - Para criar estruturas
+struct Card {
+    var rank: Rank
+    var suit: Suit
+    
+    func simpleDescription() -> String {
+        return "O \(rank.simpleDescription()) de \(suit.simpleDescription())"
+    }
+}
+
+let threeOfSpades = Card(rank: .three, suit: .spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
